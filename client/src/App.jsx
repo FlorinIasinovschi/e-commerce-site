@@ -52,7 +52,7 @@ function App() {
         <ScrollToTop>
           <Routes>
             <Route exact path="/" element={<Home />} />
-            <Route path="/products/:category" element={<ProductsList />} />
+            <Route path="/products/all" element={<ProductsList />} />
             <Route path="/product/:id" element={<ProductPage />} />
             <Route path="/cart" element={<Cart />} />
             <Route path="/signin" element={user ? <Navigate replace to="/" /> : <SignIn />} />

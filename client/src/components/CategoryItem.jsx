@@ -83,7 +83,7 @@ export default function CategoryItem({ item }) {
       <Img src={item.imgLink} />
       <TextWrapper>
         <Title>{item.title}</Title>
-        <Link to={`/products/${item.category}`}>
+        <Link to={`/products/all`}>
           <ShowButton>
             Explore Now
           </ShowButton>

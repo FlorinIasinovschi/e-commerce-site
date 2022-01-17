@@ -8,7 +8,7 @@ const Container = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: #ebe8de;
+  background-color: #f3f2f0;
   margin-top: 5%;
 `;
 
@@ -43,7 +43,7 @@ const InputContainer = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 100%;
+  width: 80%;
 `;
 
 const Input = styled.input`
@@ -84,7 +84,7 @@ export default function NewsLetter() {
           NewsLetter
         </Title>
         <Text>
-          Keep up with the latest discounts
+          Keep up with the latest discounts.
         </Text>
         <InputContainer>
           <Input placeholder='Your Email' />

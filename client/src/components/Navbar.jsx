@@ -23,6 +23,7 @@ const Wrapper = styled.div`
   height: 80%;
   justify-content: space-between;
   align-items: center;
+  ${mobile({ width: "95%" })};
 `;
 const Left = styled.div`
   flex:1;
@@ -41,19 +42,7 @@ const Language = styled.div`
 
 
 `;
-const Searchbar = styled.div`
-  display: flex;
-  align-items: center;
-  border: 1px solid lightgray;
-  height: 25px;
-  width: 40%;
-  padding: 1%;
-`;
-const Input = styled.input`
-  width: 100%;
-  height: 100%;
-  border:none;
-`;
+
 const Center = styled.div`
   flex:1;
   display: flex;
@@ -81,19 +70,36 @@ const Right = styled.div`
   display: flex;
   align-items: center;
   justify-content: flex-end;
+
   color: ${fontColor};
   ${mobile({ flex: "1.3" })};
 
 `;
+
+const MenuContainer = styled.div`
+  width : 60%;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  ${mobile({ width: "100%" })};
+
+`
+
 const MenuItem = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
   font-size: 1.1em;
   cursor: pointer;
-  margin-right: 5%;
+  /* background-color: aqua; */
+  margin-right: 15px;
+  ${mobile({ fontSize: ".9em" })};
+
+  
+
 `;
 
 const NavLink = styled(Link)`
-  width:15%;
-  font-size: 1em;
   cursor: pointer;
   text-decoration: none;
   color: ${fontColor};
@@ -124,18 +130,22 @@ export default function Navbar() {
             </Link>
           </Center>
           <Right>
-            <MenuItem onClick={handlePurge} >Purge Redux</MenuItem>
-            <NavLink to="/register">
-              <MenuItem>Register</MenuItem>
-            </NavLink>
-            <NavLink to="/signin" >
-              <MenuItem>Sign In</MenuItem>
-            </NavLink>
-            <Badge badgeContent={quantity} color="primary" >
-              <NavLink to="/cart" >
-                <ShoppingCartOutlined />
+            <MenuContainer>
+              <NavLink to="/">
+                <MenuItem onClick={handlePurge} >Purge Redux</MenuItem>
               </NavLink>
-            </Badge>
+              <NavLink to="/register">
+                <MenuItem>Register</MenuItem>
+              </NavLink>
+              <NavLink to="/signin" >
+                <MenuItem>Sign In</MenuItem>
+              </NavLink>
+              <Badge badgeContent={quantity} color="primary" >
+                <NavLink to="/cart" >
+                  <ShoppingCartOutlined />
+                </NavLink>
+              </Badge>
+            </MenuContainer>
           </Right>
         </Wrapper>
       </Container>

@@ -6,10 +6,12 @@ import { useState } from 'react'
 import NewsLetter from '../components/NewsLetter'
 import { useDispatch, useSelector } from 'react-redux'
 import { decreaseProductQuantity, deleteProduct, increaseProductQuantity } from '../redux/cartRedux'
-import StripeCheckout from 'react-stripe-checkout'
+// import StripeCheckout from 'react-stripe-checkout'
 import axios from 'axios'
+import { publicRequest } from '../data/requestMethods'
 import { userRequest } from '../data/requestMethods'
 import { Link, useNavigate } from 'react-router-dom'
+import { Fade } from 'react-reveal'
 
 
 const Container = styled.div`
@@ -20,14 +22,14 @@ const Container = styled.div`
 `
 const Title = styled.h1`
   font-size: 2em;
-  margin-top: 2%;
+  margin-top: 30px;
   font-weight: 400;
 `
 const BtnsWrapper = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  width: 95%;
+  width: 100%;
   margin-bottom: 2%;
 `
 const BodyContainer = styled.div`
@@ -48,18 +50,21 @@ const OrderContainer = styled.div`
   display: flex;
   min-height: 500px;
   height: auto;
-  border: 1px solid grey;
-  border-radius: 20px;
+
   flex-direction: column;
-  justify-content: center;
+  justify-content: flex-start;
   align-items: center;
 `
 
 const OrderWrapper = styled.div`
   display: flex;
   flex-direction: column;
-  width: 90%;
-  height: 90%;
+  width: 100%;
+  height: auto;
+  border: 1px solid grey;
+  border-radius: 20px;
+  padding: 20px;
+  box-sizing: border-box;
 `
 
 const Item = styled.div`
@@ -78,9 +83,23 @@ const DescContainer = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  height: auto;
+  width: auto;
+`
+const InfoContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
   height: 80%;
   width: auto;
-  margin-left: 20px;
+`
+
+const ProductsContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: auto;
+  width: auto;
 `
 
 const PriceAndAmountContainer = styled.div`
@@ -89,14 +108,15 @@ const PriceAndAmountContainer = styled.div`
   align-items: center;
   justify-content: space-between;
   height: 70%;
-  width: 10%;
+  width: 130px;
   position: absolute;
   right: 5%;
 `
 const AmountContainer = styled.div`
   display: flex;
   justify-content: space-between;
-  height: 80%;
+  align-items: center;
+  height: 100%;
   width: 100%;
 `
 const DescSpan = styled.span`
@@ -117,7 +137,7 @@ const Amount = styled.p`
   margin: 0 3%;
 `
 const Price = styled.span`
-  font-size: 2em;
+  font-size: 1.5em;
   font-weight: 500;
 `
 
@@ -276,89 +296,99 @@ export default function Cart() {
   return (
     <Container>
       <Navbar />
-      <Title>Cart Products</Title>
-      <BtnsWrapper>
-        <Link to='/prducts/all' >
-          <Btn>Continue Shopping</Btn>
-        </Link>
-        <Btn>Go To Checkout</Btn>
-      </BtnsWrapper>
+      <Fade>
+        <Title>Cart Products</Title>
+        <div style={{ width: "95%" }} >
+
+          <BtnsWrapper>
+            <Link to='/products/all' style={{ textDecoration: "none" }} >
+              <Btn>Continue Shopping</Btn>
+            </Link>
+            <Btn>Go To Checkout</Btn>
+          </BtnsWrapper>
+        </div>
+
+      </Fade>
+
+
       <BodyContainer>
-        <ItemsContainer>
-          {cart.products?.map((el) =>
 
-          (<Item key={el._id} >
-            <Image src={el.img} />
-            <DescContainer>
-              <DescSpan>
-                <b>PRODUCT:</b> {el.title}
-              </DescSpan>
-              <DescSpan>
-                <b>ID:</b> {el._id}
-              </DescSpan>
-              <DescSpan>
-                <b>COLOR:</b> {el.color}
-              </DescSpan>
-              <DescSpan>
-                <b>SIZE:</b> {el.size}
-              </DescSpan>
-            </DescContainer>
-            <PriceAndAmountContainer>
-              <AmountContainer>
-                <SymbolBtn onClick={() => handleClick("decrease", el, el.amount, el.cartIdx)} >-</SymbolBtn>
-                <Amount>{el.amount}</Amount>
-                <SymbolBtn onClick={() => handleClick("increase", el, el.amount, el.cartIdx)} >+</SymbolBtn>
-              </AmountContainer>
-              <Price>$ {el.price}</Price>
-              <DeleteBtn onClick={() => removeCartItem(el, el.amount, el.cartIdx)} >Remove Item</DeleteBtn>
-            </PriceAndAmountContainer>
-          </Item>)
-          )}
+        <Fade delay={300} >
+          <div style={{ flex: 3 }} >
 
-
-        </ItemsContainer>
-        <OrderContainer>
-          <OrderWrapper>
-            <SummaryTitle>ORDER SUMMARY</SummaryTitle>
-            <DescContainer>
+            <ItemsContainer>
               {cart.products?.map((el) =>
-                <SpanContainer>
-                  <DescSpan>{el.title} </DescSpan>
-                  <DescSpan>x{cart.products[cart.products.findIndex(x => x.cartIdx === el.cartIdx)].amount}  $ {el.price}</DescSpan>
-                </SpanContainer>
 
+              (<Item key={el.cartIdx} >
+                <Image src={el.img} />
+                <InfoContainer>
+                  <DescSpan>
+                    <b>PRODUCT:</b> {el.title}
+                  </DescSpan>
+                  <DescSpan>
+                    <b>ID:</b> {el._id}
+                  </DescSpan>
+                  <DescSpan>
+                    <b>COLOR:</b> {el.color}
+                  </DescSpan>
+                  <DescSpan>
+                    <b>SIZE:</b> {el.size}
+                  </DescSpan>
+                </InfoContainer>
+                <PriceAndAmountContainer>
+                  <AmountContainer>
+                    <SymbolBtn onClick={() => handleClick("decrease", el, el.amount, el.cartIdx)} >-</SymbolBtn>
+                    <Amount>{el.amount}</Amount>
+                    <SymbolBtn onClick={() => handleClick("increase", el, el.amount, el.cartIdx)} >+</SymbolBtn>
+                  </AmountContainer>
+                  <Price>$ {el.price}</Price>
+                  <DeleteBtn onClick={() => removeCartItem(el, el.amount, el.cartIdx)} >Remove Item</DeleteBtn>
+                </PriceAndAmountContainer>
+              </Item>)
               )}
-              <SpanContainer style={{ marginTop: "30px" }} >
-                <DescSpan>Subtotal</DescSpan>
-                <DescSpan>${cart.total}</DescSpan>
-              </SpanContainer>
-              <SpanContainer type="shipping" >
-                <DescSpan>Estimated Shipping</DescSpan>
-                <DescSpan>$5</DescSpan>
-              </SpanContainer>
-              <SpanContainer>
-                <DescSpan>Shipping Discount</DescSpan>
-                <DescSpan>$-5</DescSpan>
-              </SpanContainer>
-              <SpanContainer fontsize="2em" style={{ marginTop: "30px" }}>
-                <DescSpan>Total</DescSpan>
-                <DescSpan>$ {cart.total}</DescSpan>
-              </SpanContainer>
-            </DescContainer>
-            <StripeCheckout
-              name='E-Commerce Shop'
-              image='https://upload.wikimedia.org/wikipedia/commons/thumb/d/d2/512x512-Gaussian-Noise.jpg/256px-512x512-Gaussian-Noise.jpg'
-              billingAddress
-              shippingAddress
-              description={`Your total is $${cart.total}`}
-              amount={cart.total * 100}
-              token={onToken}
-              stripeKey={KEY}
-            >
-              <CheckoutBtn>Check Out</CheckoutBtn>
-            </StripeCheckout>
-          </OrderWrapper>
-        </OrderContainer>
+            </ItemsContainer>
+          </div>
+        </Fade>
+
+        <Fade right >
+          <OrderContainer>
+            <OrderWrapper>
+              <SummaryTitle>ORDER SUMMARY</SummaryTitle>
+              <ProductsContainer>
+                {cart.products?.map((el) =>
+                  <SpanContainer key={el.cartIdx}>
+                    <DescSpan>{el.title} </DescSpan>
+                    <DescSpan>x{cart.products[cart.products.findIndex(x => x.cartIdx === el.cartIdx)].amount}  $ {el.price}</DescSpan>
+                  </SpanContainer>
+                )}
+              </ProductsContainer>
+
+              <DescContainer>
+                <SpanContainer style={{ marginTop: "30px" }} >
+                  <DescSpan>Subtotal</DescSpan>
+                  <DescSpan>${cart.total}</DescSpan>
+                </SpanContainer>
+                <SpanContainer type="shipping" >
+                  <DescSpan>Estimated Shipping</DescSpan>
+                  <DescSpan>$5</DescSpan>
+                </SpanContainer>
+                <SpanContainer>
+                  <DescSpan>Shipping Discount</DescSpan>
+                  <DescSpan>$-5</DescSpan>
+                </SpanContainer>
+                <SpanContainer fontsize="2em" style={{ marginTop: "30px" }}>
+                  <DescSpan>Total</DescSpan>
+                  <DescSpan>$ {cart.total}</DescSpan>
+                </SpanContainer>
+              </DescContainer>
+              <form action={`http://localhost:5000/api/checkout/create-checkout-session`} method="POST"
+              >
+                <CheckoutBtn type='submit'>Check Out</CheckoutBtn>
+              </form>
+            </OrderWrapper>
+          </OrderContainer>
+        </Fade>
+
       </BodyContainer>
       <NewsLetter />
       <Footer />

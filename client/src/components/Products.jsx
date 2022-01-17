@@ -6,11 +6,9 @@ import axios from 'axios';
 
 
 const PageWrapper = styled.div`
-  margin-top: 1%;
   width : 100%;
   height : 100vh;
   display : flex;
-  flex-wrap: wrap;
   align-items: center;
   justify-content: center;
   ${mobile({ height: "auto" })};
@@ -24,7 +22,6 @@ const Container = styled.div`
   display : flex;
   //padding : 20px;
   flex-wrap: wrap;
-  align-items: center;
   justify-content: space-between;
   ${mobile({ flexDirection: "column", flexWrap: 'nowrap' })};
 `;
@@ -53,11 +50,14 @@ export default function Products({ category, sort, location }) {
       setFilteredProducts(
         products.filter(el => Object.entries(category).every(([key, value]) => el[key].includes(value)))
       )
+
   }, [products, category, location])
+
 
   useEffect(() => {
     if (sort === "newest") {
       setFilteredProducts((previous) => [...previous].sort((a, b) => a.createdAt - b.createdAt))
+      console.log("sorted by newest")
     }
     else if (sort === "asc") {
       setFilteredProducts((previous) => [...previous].sort((a, b) => a.price - b.price))
@@ -65,7 +65,6 @@ export default function Products({ category, sort, location }) {
     else if (sort === "desc") {
       setFilteredProducts((previous) => [...previous].sort((a, b) => b.price - a.price))
     }
-
 
   }, [sort])
 

@@ -3,6 +3,7 @@ import { ArrowForwardIos, ArrowBackIos } from '@mui/icons-material/';
 import { sliderData } from '../data/sliderData';
 import { useState } from 'react';
 import { Fade } from 'react-reveal';
+import { mobile } from '../data/responsive';
 
 
 
@@ -43,6 +44,8 @@ const Slide = styled.div`
   display: flex;
   align-items: center;
 
+  ${mobile({ flexDirection: "column" })};
+
   -webkit-touch-callout: none; /* iOS Safari */
     -webkit-user-select: none; /* Safari */
      -khtml-user-select: none; /* Konqueror HTML */
@@ -50,6 +53,8 @@ const Slide = styled.div`
         -ms-user-select: none; /* Internet Explorer/Edge */
             user-select: none; /* Non-prefixed version, currently
                                   supported by Chrome, Edge, Opera and Firefox */
+
+    
 `;
 const ImgContainer = styled.div`
   flex: 1;
@@ -62,6 +67,7 @@ const Img = styled.img`
   width: 100%;
   height: 100%;
   object-fit: cover;
+  ${mobile({ objectFit: "cover", height: "500px", })};
 `;
 const Right = styled.div`
   flex: 1;
@@ -80,12 +86,14 @@ const Title = styled.h1`
   font-size: 6em;
   color: #2c2c2c;
   margin-bottom: 10%;
+  ${mobile({ fontSize: "1em" })};
 
 `;
 const Paragraph = styled.p`
   font-size: 1.8em;
   margin-bottom: 10%;
   margin-right: 10%;
+  ${mobile({ fontSize: ".8em" })};
 
 `;
 const ShowButton = styled.button`

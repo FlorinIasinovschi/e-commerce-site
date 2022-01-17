@@ -24,7 +24,7 @@ const Container = styled.div`
   align-items: center;
   margin : 2px;
   padding: 10px;
-  background-color: #e5ecee;
+  background-color: #f0f2f3;
   position: relative;
   transition: all 0.5s ease;
   &:hover {

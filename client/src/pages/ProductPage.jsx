@@ -29,7 +29,7 @@ const Left = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: aliceblue;
+  background-color: #f0f2f3;
   
 `
 const Right = styled.div`
@@ -219,16 +219,15 @@ function ProductPage() {
 
   const dispatch = useDispatch();
   const addToCart = () => {
-    setCartIdx(cart.quantity);
-    console.log(cartIdx);
     dispatch(
       addProduct({ ...productInfo, amount, size, cartIdx })
     );
-    setVisible(true);
-    setTimeout(() => {
-      setVisible(false);
-    }, 5000)
   }
+
+  useEffect(() => {
+    setCartIdx(cart.quantity);
+    console.log(cartIdx);
+  }, [cart.quantity])
 
   const handleSelection = (e) => {
     setSize(e.target.value);
