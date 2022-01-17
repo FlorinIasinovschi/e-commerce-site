@@ -299,19 +299,6 @@ export default function Cart() {
       try {
         const res = await axios.post(`${process.env.REACT_APP_SERVER_URL}/checkout/create-checkout-session`, {
 
-          // [
-          //   {
-          //     price_data: {
-          //       currency: 'usd',
-          //       product_data: {
-          //         name: "whatever",
-          //       },
-          //       unit_amount: 2000,
-          //     },
-          //     quantity: 2,
-          //   },
-          // ],
-
           items: cart.products.map((el) => ({
             price_data: {
               currency: 'usd',
