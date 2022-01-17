@@ -292,6 +292,50 @@ export default function Cart() {
     stripeToken && makeRequest()
   }, [stripeToken, cart.total, navigate])
 
+  const handleCheckout = () => {
+    console.log("clicked")
+    console.log(cart.products)
+    const sendCart = async () => {
+      try {
+        const res = await axios.post(`${process.env.REACT_APP_SERVER_URL}/checkout/create-checkout-session`, {
+
+          // [
+          //   {
+          //     price_data: {
+          //       currency: 'usd',
+          //       product_data: {
+          //         name: "whatever",
+          //       },
+          //       unit_amount: 2000,
+          //     },
+          //     quantity: 2,
+          //   },
+          // ],
+
+          items: cart.products.map((el) => ({
+            price_data: {
+              currency: 'usd',
+              product_data: {
+                name: el.title,
+              },
+              unit_amount: el.price * 100,
+            },
+            quantity: el.amount,
+          }))
+
+        })
+        const body = await res.data
+        window.location.href = body.url
+
+
+      } catch (err) {
+        console.log(err);
+      }
+    }
+
+    sendCart();
+  }
+
 
   return (
     <Container>
@@ -381,10 +425,7 @@ export default function Cart() {
                   <DescSpan>$ {cart.total}</DescSpan>
                 </SpanContainer>
               </DescContainer>
-              <form action={`http://localhost:5000/api/checkout/create-checkout-session`} method="POST"
-              >
-                <CheckoutBtn type='submit'>Check Out</CheckoutBtn>
-              </form>
+              <CheckoutBtn onClick={handleCheckout} >Check Out</CheckoutBtn>
             </OrderWrapper>
           </OrderContainer>
         </Fade>
