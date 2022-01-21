@@ -6,12 +6,12 @@ import { useState } from 'react'
 import NewsLetter from '../components/NewsLetter'
 import { useDispatch, useSelector } from 'react-redux'
 import { decreaseProductQuantity, deleteProduct, increaseProductQuantity } from '../redux/cartRedux'
-// import StripeCheckout from 'react-stripe-checkout'
 import axios from 'axios'
 import { publicRequest } from '../data/requestMethods'
-import { userRequest } from '../data/requestMethods'
 import { Link, useNavigate } from 'react-router-dom'
 import { Fade } from 'react-reveal'
+import { mobile } from '../data/responsive';
+
 
 
 const Container = styled.div`
@@ -31,11 +31,15 @@ const BtnsWrapper = styled.div`
   justify-content: space-between;
   width: 100%;
   margin-bottom: 2%;
+  ${mobile({ margin: "20px 0 30px 0" })};
+
 `
 const BodyContainer = styled.div`
   display: flex;
   width: 95%;
   height: auto;
+  ${mobile({ flexDirection: "column" })};
+
 `
 const ItemsContainer = styled.div`
   flex: 3;
@@ -54,6 +58,8 @@ const OrderContainer = styled.div`
   flex-direction: column;
   justify-content: flex-start;
   align-items: center;
+  ${mobile({ marginTop: "20px" })};
+
 `
 
 const OrderWrapper = styled.div`
@@ -73,11 +79,16 @@ const Item = styled.div`
   border-bottom: 1px solid grey;
   padding: 20px 0;
   position: relative;
+  //background-color: green;
+  ${mobile({ padding: "10px 0" })};
+
 `
 const Image = styled.img`
   width: 250px;
   height: 250px;
   object-fit: contain;
+  ${mobile({ width: "100px", height: "100px" })};
+
 `
 const DescContainer = styled.div`
   display: flex;
@@ -92,6 +103,9 @@ const InfoContainer = styled.div`
   justify-content: space-between;
   height: 80%;
   width: auto;
+  //background-color: red;
+  ${mobile({ height: "90px", fontSize: ".85em" })};
+
 `
 
 const ProductsContainer = styled.div`
@@ -111,6 +125,9 @@ const PriceAndAmountContainer = styled.div`
   width: 130px;
   position: absolute;
   right: 5%;
+  //background-color: azure;
+  ${mobile({ fontSize: ".8em", width: "100px", right: "0", height: "90%" })};
+
 `
 const AmountContainer = styled.div`
   display: flex;
@@ -121,6 +138,8 @@ const AmountContainer = styled.div`
 `
 const DescSpan = styled.span`
   font-size: 1.2em;
+  ${mobile({ fontSize: ".9em" })};
+
 `
 const SpanContainer = styled.div`
   display: flex;
@@ -157,6 +176,8 @@ const SymbolBtn = styled.button`
     color: white;
   border: 2px solid white;
   }
+  ${mobile({ width: "30px", height: "30px" })};
+
 `
 
 const Btn = styled.button`
@@ -177,6 +198,7 @@ const Btn = styled.button`
   border: 2px solid white;
   }
 
+
 `;
 
 const SummaryTitle = styled.h2`
@@ -184,6 +206,8 @@ const SummaryTitle = styled.h2`
   font-weight: 400;
   color: #252525;
   margin-bottom: 10%;
+  ${mobile({ fontSize: "2em" })};
+
 `
 
 const CheckoutBtn = styled.button`
@@ -205,6 +229,8 @@ const CheckoutBtn = styled.button`
     color: #252525;
   border: 2px solid grey;
   }
+  ${mobile({ width: "100%" })};
+
 
 `;
 
@@ -227,10 +253,11 @@ const DeleteBtn = styled.button`
     color: #252525;
   border: 2px solid grey;
   }
+  ${mobile({ width: "100%", margin: "10px 0 0 0 " })};
+
 `
 
 
-const KEY = process.env.REACT_APP_KEY;
 
 
 export default function Cart() {
@@ -238,7 +265,6 @@ export default function Cart() {
 
   const [limit, setLimit] = useState(false);
   const cart = useSelector(state => state.cart)
-  const navigate = useNavigate();
   const dispatch = useDispatch();
 
 
@@ -269,28 +295,6 @@ export default function Cart() {
     );
   }
 
-  const [stripeToken, setStripeToken] = useState(null)
-
-  const onToken = (token) => {
-    setStripeToken(token);
-    console.log(token)
-  }
-
-  useEffect(() => {
-    const makeRequest = async () => {
-      try {
-        const res = await userRequest.post("/checkout/payment", {
-          tokenId: stripeToken.id,
-          amount: cart.total
-        })
-        navigate("/success", { data: res.data })
-
-      } catch (err) {
-        console.log(err);
-      }
-    }
-    stripeToken && makeRequest()
-  }, [stripeToken, cart.total, navigate])
 
   const handleCheckout = () => {
     console.log("clicked")
@@ -335,7 +339,7 @@ export default function Cart() {
             <Link to='/products/all' style={{ textDecoration: "none" }} >
               <Btn>Continue Shopping</Btn>
             </Link>
-            <Btn>Go To Checkout</Btn>
+            {cart.total > 0 && <Btn onClick={handleCheckout} >Go To Checkout</Btn>}
           </BtnsWrapper>
         </div>
 
@@ -412,7 +416,7 @@ export default function Cart() {
                   <DescSpan>$ {cart.total}</DescSpan>
                 </SpanContainer>
               </DescContainer>
-              <CheckoutBtn onClick={handleCheckout} >Check Out</CheckoutBtn>
+              {cart.total > 0 && <CheckoutBtn onClick={handleCheckout} >Check Out</CheckoutBtn>}
             </OrderWrapper>
           </OrderContainer>
         </Fade>

@@ -60,6 +60,10 @@ const ImgContainer = styled.div`
   flex: 1;
   display: flex;
   align-items: center;
+  background-color: #5c685c;
+  width: 100%;
+  height: 100%;
+
 
   //background-color: #ffffff;
 `;
@@ -67,6 +71,7 @@ const Img = styled.img`
   width: 100%;
   height: 100%;
   object-fit: cover;
+  background-color: green;
   ${mobile({ objectFit: "cover", height: "500px", })};
 `;
 const Right = styled.div`
@@ -80,20 +85,24 @@ const TextContainer = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
+  ${mobile({ justifyContent: "flex-start", padding: "30px", alignItems: "center", margin: "0" })};
+
+  
 `;
 const Title = styled.h1`
   font-weight: 500;
   font-size: 6em;
   color: #2c2c2c;
-  margin-bottom: 10%;
-  ${mobile({ fontSize: "1em" })};
+  margin: 0 0 10% 0;
+
+  ${mobile({ fontSize: "2em" })};
 
 `;
 const Paragraph = styled.p`
   font-size: 1.8em;
   margin-bottom: 10%;
   margin-right: 10%;
-  ${mobile({ fontSize: ".8em" })};
+  ${mobile({ fontSize: "1.1em", margin: "30px 0 50px 0", textAlign: "center" })};
 
 `;
 const ShowButton = styled.button`
@@ -110,6 +119,8 @@ const ShowButton = styled.button`
   border: 2px solid white;
 
   }
+  ${mobile({ width: "40%", fontSize: "1em", padding: "15px" })};
+
 
 `;
 

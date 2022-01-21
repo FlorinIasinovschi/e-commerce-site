@@ -2,6 +2,7 @@ import styled from 'styled-components/';
 import Footer from '../components/Footer';
 import Navbar from '../components/Navbar';
 import NewsLetter from '../components/NewsLetter';
+import { mobile } from '../data/responsive';
 import { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import axios from 'axios';
@@ -20,6 +21,8 @@ const Wrapper = styled.div`
   display: flex;
   width: 100%;
   height: calc(100vh - 70px );
+  ${mobile({ flexDirection: "column" })};
+
 `
 
 const Left = styled.div`
@@ -30,8 +33,9 @@ const Left = styled.div`
   justify-content: center;
   align-items: center;
   background-color: #f0f2f3;
-  
+  ${mobile({ height: "50vh" })};
 `
+
 const Right = styled.div`
   flex: 1;
   display: flex;
@@ -43,7 +47,6 @@ const RightContainer = styled.div`
   flex-direction: column;
   width: 80%;
   height: 100%;
-
 `
 
 const ProductImg = styled.img`
@@ -51,6 +54,8 @@ const ProductImg = styled.img`
   width: 100%;
   max-height: 800px;
   min-height: 500px;
+  ${mobile({ maxWidth: "300px", objectFit: "cover", maxHeight: "380px", minHeight: "200px" })};
+
 `
 
 
@@ -61,7 +66,10 @@ const BlockContainer = styled.div`
   margin-top: 2%;
   width: 100%;
   justify-content: space-between;
-  
+  //background-color: #1ebb10;
+  ${mobile({ margin: "0", width: "100%" })};
+
+
 `
 
 const ProductTitle = styled.h1`
@@ -75,10 +83,14 @@ const Paragraph = styled.p`
   width: 70%;
   font-size: 1.2em;
   margin: 0 0 5% 0;
+  ${mobile({ fontSize: "1em", width: "100%" })};
+  
 `
 const Price = styled.span`
   font-size: 2em;
   margin: 0 0 5% 0;
+  //background-color: aliceblue;
+  ${mobile({ fontSize: "2em", width: "100%", margin: "0" })};
 
 `
 
@@ -87,6 +99,7 @@ const SpanContainer = styled.div`
   align-items: center;
   width: 100%;
 `
+
 const Text = styled.span`
   font-size: 1.5em;
 `
@@ -143,6 +156,8 @@ const AddToCartBtn = styled.button`
     color: white;
   border: 2px solid white;
   }
+  ${mobile({ width: "150px", marginLeft: "40px" })};
+
 
 `;
 const DisabledCartBtn = styled.button`
@@ -158,6 +173,8 @@ const DisabledCartBtn = styled.button`
   justify-content: center;
   margin-left: 5%;
   transition: all 0.3s ease;
+  ${mobile({ width: "150px", marginLeft: "40px" })};
+
 
 `;
 
@@ -171,6 +188,12 @@ const CartPopUp = styled.div`
   border-radius: 20px;
   box-shadow: 1px 1px 1px 1px lightgrey;
   
+`
+const GroupContainer = styled.div`
+//background-color: red;
+  
+  ${mobile({ display: "flex", alignItems: "center", width: "100%", justifyContent: "center" })};
+
 `
 
 function ProductPage() {
@@ -253,16 +276,20 @@ function ProductPage() {
             <Fade>
               <ProductTitle>{productInfo.title}</ProductTitle>
               <Paragraph>{productInfo.description} </Paragraph>
-              <Price>$ {productInfo.price} </Price>
-              <BlockContainer>
-                <SpanContainer>
-                  <Text>Size</Text>
-                  <Selection defaultValue={"Select"} onChange={handleSelection} >
-                    <Option value="Select" disabled>Select</Option>
-                    {productInfo.size?.map((s) => (<Option key={s}>{s}</Option>))}
-                  </Selection>
-                </SpanContainer>
-              </BlockContainer>
+              <GroupContainer>
+                <BlockContainer>
+                  <Price>$ {productInfo.price} </Price>
+                </BlockContainer>
+                <BlockContainer>
+                  <SpanContainer>
+                    <Text>Size</Text>
+                    <Selection defaultValue={"Select"} onChange={handleSelection} >
+                      <Option value="Select" disabled>Select</Option>
+                      {productInfo.size?.map((s) => (<Option key={s}>{s}</Option>))}
+                    </Selection>
+                  </SpanContainer>
+                </BlockContainer>
+              </GroupContainer>
               <BlockContainer>
                 <SpanContainer>
                   <SymbolBtn onClick={() => handleAmount("decrease")} >-</SymbolBtn>
@@ -270,12 +297,12 @@ function ProductPage() {
                   <SymbolBtn onClick={() => handleAmount("increase")} >+</SymbolBtn>
                   {clickable ? <AddToCartBtn onClick={() => addToCart()} >Add to Cart</AddToCartBtn> :
                     <DisabledCartBtn onClick={() => setWarning("Select a size to continue...")} >Add To Cart</DisabledCartBtn>}
-                  <span style={{ color: "red", marginLeft: "20px" }} >
-                    {warning}
-                  </span>
 
                 </SpanContainer>
               </BlockContainer>
+              <span style={{ color: "red", marginLeft: "20px" }} >
+                {warning}
+              </span>
               <SpanContainer style={{ color: "red" }} >
                 {limit && "Sorry can't order more than 5"}
               </SpanContainer>

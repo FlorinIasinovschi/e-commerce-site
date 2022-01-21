@@ -14,13 +14,17 @@ const PageWrapper = styled.div`
   flex-wrap: wrap;
   align-items: center;
   justify-content: center;
+  background-color: aliceblue;
+  ${mobile({ height: "100vh" })};
+
   `;
 
 const Container = styled.div`
   width : 100%;
   height : auto;
   display : flex;
-  ${mobile({ flexDirection: "column" })};
+  ${mobile({ flexDirection: "column", height: "100%" })};
+  //background-color: red;
 `;
 
 export default function Categories() {

@@ -18,7 +18,7 @@ const Wrapper = styled.div`
   align-items: center;
   flex-direction: column;
   width: 50%;
-  ${mobile({ width: "80%" })};
+  ${mobile({ width: "90%", height: "100%" })};
 
 `;
 
@@ -26,7 +26,7 @@ const Title = styled.h1`
   color: #535353;
   font-size: 5em;
   font-weight: 500;
-  ${mobile({ fontSize: "3em" })};
+  ${mobile({ fontSize: "3em", marginBottom: "30px" })};
 
 `;
 
@@ -35,6 +35,8 @@ const Text = styled.span`
   color: #535353;
   font-size: 1.2em;
   font-weight: 500;
+  ${mobile({ marginBottom: "10px" })};
+
 `;
 
 const InputContainer = styled.div`
@@ -44,13 +46,19 @@ const InputContainer = styled.div`
   justify-content: center;
   align-items: center;
   width: 80%;
+  //background-color: red;
+  ${mobile({ flexDirection: "column" })};
+
 `;
 
 const Input = styled.input`
   width: 80%;
-  height: 30px;
+  height: 40px;
   padding: 4px 20px;
   font-size: .9em;
+  box-sizing: border-box;
+  ${mobile({ width: "100%", padding: "4px 10px", height: "40px" })};
+
 
 `;
 
@@ -73,6 +81,8 @@ const SendButton = styled.button`
   border: 2px solid white;
 
   }
+  ${mobile({ width: "100px", fontSize: "1em", padding: ".5em", marginTop: "10px", height: "40px" })};
+
 
 `;
 

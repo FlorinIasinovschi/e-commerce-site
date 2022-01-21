@@ -8,7 +8,8 @@ const Container = styled.div`
   width: 100%;
   height: 30vh;
   background-color: #ffffff;
-  ${mobile({ flexDirection: "Column" })};
+  box-sizing: border-box;
+  ${mobile({ flexDirection: "Column", height: "40vh" })};
   
 `;
 
@@ -17,6 +18,9 @@ const Left = styled.div`
   display: flex;
   flex-direction: column;
   padding: 1%;
+  box-sizing: border-box;
+  ${mobile({ padding: "20px" })};
+
 `;
 
 const Center = styled.div`
@@ -32,6 +36,8 @@ const Right = styled.div`
   display: flex;
   padding: 1%;
   flex-direction: column;
+  box-sizing: border-box;
+  ${mobile({ padding: "20px" })};
 `;
 
 const LogoName = styled.h2`

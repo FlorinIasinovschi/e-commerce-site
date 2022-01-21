@@ -1,16 +1,22 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
+import { CheckCircleOutlineOutlined } from '@mui/icons-material/';
+import { mobile } from '../data/responsive'
 import styled from 'styled-components'
 import { login } from '../redux/apiCalls'
+import { useNavigate } from 'react-router-dom';
+import Navbar from '../components/Navbar';
 
 
 const Container = styled.div`
   display: flex;
   width: 100vw;
   height: 100vh;
-  justify-content: center;
+  justify-content: flex-start;
   align-items: center;
   background-color: aliceblue;
+  flex-direction: column;
+
 `
 
 const Wrapper = styled.div`
@@ -20,6 +26,11 @@ const Wrapper = styled.div`
   justify-content: center;
   align-items: center;
   background-color: #ffffff;
+  top : 0;
+  bottom : 0;
+  margin : auto;
+  ${mobile({ width: "100%" })};
+
 `
 const Form = styled.form`
   display: flex;
@@ -45,8 +56,29 @@ const AText = styled.a`
   font-size: .9em;
   cursor: pointer;
   text-decoration: underline;
+  color: black;
+
 `
 
+const SucessDiv = styled.div`
+  display: flex;
+  flex-direction: column;
+  width: 800px;
+  height: 500px;
+  align-items: center;
+  background-color: #ffffff;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  margin: auto;
+  font-size: 1.2em;
+`
+const SuccessTitle = styled.h1`
+  font-size: 2.2em;
+  font-weight: 400;
+  margin: 5% 0 10% 0;
+  color: #202020;
+`
 
 
 const LoginBtn = styled.button`
@@ -83,25 +115,44 @@ export default function SignIn() {
   const [username, setUsername] = useState("")
   const [password, setPassword] = useState("")
   const dispatch = useDispatch();
-  const { isFetching, error } = useSelector((state) => state.user);
+  const navigate = useNavigate();
+  const { isFetching, error, currentUser } = useSelector((state) => state.user);
 
   const handleLogin = (e) => {
     e.preventDefault();
     login(dispatch, { username, password })
   }
 
+  useEffect(() => {
+    if (currentUser) {
+      setTimeout(() => {
+        navigate("/")
+      }, 3000)
+    }
+
+    console.log("useeffect")
+
+
+  }, [currentUser])
+
   return (
     < Container >
+      <Navbar />
       <Wrapper>
-        <Form>
-          <Title>SIGN IN</Title>
-          <Input placeholder='Username' onChange={(e) => setUsername(e.target.value)} ></Input>
-          <Input placeholder='Password' type="password" onChange={(e) => setPassword(e.target.value)} ></Input>
-          <LoginBtn onClick={handleLogin} disabled={isFetching} >LOGIN</LoginBtn>
-          {error && <Error>Something Went Wrong...</Error>}
-          <AText>FORGOT THE PASSWORD?</AText>
-          <AText href='/register' >CREATE A NEW ACCOUNT.</AText>
-        </Form>
+        {currentUser ? <SucessDiv>
+          <CheckCircleOutlineOutlined style={{ fontSize: "100px", marginTop: "30px", color: "green" }} />
+          <SuccessTitle>LOGIN SUCCESSFUL!</SuccessTitle>
+          You will now be redirected to the <b>Home Page</b></SucessDiv> :
+          <Form>
+            <Title>SIGN IN</Title>
+            <Input placeholder='Username' onChange={(e) => setUsername(e.target.value)}  ></Input>
+            <Input placeholder='Password' type="password" onChange={(e) => setPassword(e.target.value)} ></Input>
+            <LoginBtn onClick={handleLogin} disabled={isFetching} >LOGIN</LoginBtn>
+            {error && <Error>Wrong username or password...</Error>}
+            <AText>FORGOT THE PASSWORD?</AText>
+            <AText href='/register'  >CREATE A NEW ACCOUNT.</AText>
+          </Form>
+        }
       </Wrapper>
 
     </ Container >

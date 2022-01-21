@@ -1,5 +1,6 @@
 import React from 'react'
 import { Link } from 'react-router-dom';
+import { mobile } from '../data/responsive';
 import styled from 'styled-components'
 
 const HoverBg = styled.div`
@@ -24,6 +25,8 @@ const Container = styled.div`
   justify-content : center;
   align-items : center;
   position : relative;
+  ${mobile({ height: "100%", margin: "2px 0 0 0" })};
+  
 
   &:hover ${HoverBg} {
     opacity: 0.5;
@@ -73,6 +76,8 @@ const ShowButton = styled.button`
   border: 2px solid white;
 
   }
+  ${mobile({ fontSize: ".9em", padding: ".8em" })};
+  
 `;
 
 export default function CategoryItem({ item }) {

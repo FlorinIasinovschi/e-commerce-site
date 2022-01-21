@@ -3,6 +3,8 @@ import Footer from '../components/Footer';
 import Navbar from '../components/Navbar';
 import Products from '../components/Products';
 import NewsLetter from '../components/NewsLetter';
+import { mobile } from '../data/responsive'
+
 import { useLocation } from 'react-router-dom';
 import { useState } from 'react';
 import { Fade } from 'react-reveal';
@@ -21,6 +23,10 @@ const FiltersContainer = styled.div`
   height: 80px;
   width: 100%;
   justify-content: space-between;
+  //background-color: red;
+  box-sizing: border-box;
+  ${mobile({ flexDirection: "column", alignItems: "center", height: "auto", justifyContent: "center" })};
+
 `
 
 const PageTitle = styled.h1`
@@ -34,6 +40,9 @@ const FilterTypeContainer = styled.div`
   display: flex;
   align-items: center;
   margin: 0 3%;
+  //background-color: aliceblue;
+  ${mobile({ margin: "5px 0", fontSize: "0.8em", width: "90%", justifyContent: "space-between" })};
+
 
 `
 const Text = styled.span`

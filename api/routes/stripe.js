@@ -1,6 +1,6 @@
 
 const router = require('express').Router();
-const { stripeSecKey } = require('../stripeKey');
+const { stripeSecKey, url } = require('../stripeKey');
 
 const Stripe = require('stripe');
 const stripe = Stripe(stripeSecKey);
@@ -13,8 +13,8 @@ router.post('/create-checkout-session', async (req, res) => {
       line_items: req.body.items,
 
       mode: 'payment',
-      success_url: `http://localhost:3000/success`,
-      cancel_url: `http://localhost:3000/cancel`,
+      success_url: `${url}success`,
+      cancel_url: `${url}cart`,
     });
     res.json({ url: session.url });
 

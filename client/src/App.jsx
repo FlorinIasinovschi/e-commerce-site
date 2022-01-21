@@ -55,8 +55,9 @@ function App() {
             <Route path="/products/all" element={<ProductsList />} />
             <Route path="/product/:id" element={<ProductPage />} />
             <Route path="/cart" element={<Cart />} />
-            <Route path="/signin" element={user ? <Navigate replace to="/" /> : <SignIn />} />
+            <Route path="/signin" element={<SignIn />} />
             <Route path="/register" element={<Register />} />
+            <Route path="/register/success" element={<Home />} />
             <Route path="/success" element={<Success />} />
           </Routes>
         </ScrollToTop>

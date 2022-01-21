@@ -31,7 +31,7 @@ const PageTitle = styled.h1`
   font-size: 3em;
   font-weight: 300;
   margin: 150px 0 100px 0;
-  ${mobile({ fontSize: "2em" })};
+  ${mobile({ fontSize: "2em", margin: "40px 0 30px 0" })};
 
 `;
 
@@ -70,7 +70,6 @@ function Home() {
         </Fade>
         <Fade>
           <Products />
-
         </Fade>
       </Wrapper>
       <NewsLetter />
