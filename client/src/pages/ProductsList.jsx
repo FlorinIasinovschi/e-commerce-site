@@ -114,7 +114,7 @@ function ProductsList() {
             <FilterTypeContainer>
               <Text>Sort Products</Text>
               <Selection name='sorting' defaultValue={"Newest"} onChange={handleSorting} >
-                <Option value={"Newest"} disabled  >Newest</Option>
+                <Option value="Newest" disabled  >Newest</Option>
                 <Option value="asc" >Price (asc)</Option>
                 <Option value="desc">Price (desc)</Option>
                 <Option value="newest">Newest</Option>

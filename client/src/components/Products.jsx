@@ -56,8 +56,8 @@ export default function Products({ category, sort, location }) {
 
   useEffect(() => {
     if (sort === "newest") {
-      setFilteredProducts((previous) => [...previous].sort((a, b) => a.createdAt - b.createdAt))
-      console.log("sorted by newest")
+      setFilteredProducts((previous) => [...previous].sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt)))
+
     }
     else if (sort === "asc") {
       setFilteredProducts((previous) => [...previous].sort((a, b) => a.price - b.price))
